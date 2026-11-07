@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ResumeIQ{% endblock %} | Resume Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">R</span><span>Resume<span class="brand-light">IQ</span></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav>
+      <a class="{{ 'active' if request.endpoint == 'index' else '' }}" href="{{ url_for('index') }}"><span>▦</span> Overview</a>
+      <a class="{{ 'active' if request.endpoint == 'analyze' else '' }}" href="{{ url_for('analyze') }}"><span>⌕</span> Analyze resume</a>
+      <a class="{{ 'active' if request.endpoint == 'history' else '' }}" href="{{ url_for('history') }}"><span>◷</span> Analysis history</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="help-card"><div class="help-icon">✦</div><strong>Make your next move</strong><p>Understand how your resume aligns with a role.</p><a href="{{ url_for('analyze') }}">Start analysis →</a></div>
+      <div class="profile"><div class="avatar">VP</div><div><strong>Workspace</strong><small>Local demo account</small></div><span class="online"></span></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb">Workspace <span>/</span> {% block crumb %}Overview{% endblock %}</div><div class="top-right"><span class="local-tag"><i></i> Local environment</span><div class="top-avatar">VP</div></div></header>
+    <section class="content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }} <button onclick="this.parentElement.remove()">×</button></div>{% endfor %}{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </section>
+    <footer>ResumeIQ <span>·</span> AI-assisted resume insights <span class="footer-right">Your files are processed locally and not retained.</span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Analyze resume{% endblock %}
+{% block crumb %}Analyze resume{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">RESUME INTELLIGENCE</div><h1>Analyze a resume</h1><p class="subheading">Compare a candidate profile with the requirements of a target role.</p></div></div>
+<form class="analysis-layout" method="POST" enctype="multipart/form-data">
+  <div class="form-main">
+    <div class="panel">
+      <div class="panel-heading"><span class="step">01</span><div><h3>Upload your resume</h3><p>Provide a readable document to analyze.</p></div></div>
+      <label class="upload-zone" id="dropZone">
+        <input type="file" name="resume" id="resumeFile" accept=".pdf,.docx,.txt" required>
+        <div class="upload-symbol">↑</div><strong>Drop your resume here, or <span>browse files</span></strong><p>PDF, DOCX or TXT · Maximum file size 8 MB</p><div class="file-selected" id="fileSelected"></div>
+      </label>
+      <div class="privacy-note">♢ <span><b>Private by design.</b> Your uploaded file is read for analysis and deleted after processing. Only the analysis summary is saved.</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-heading"><span class="step">02</span><div><h3>Target job details</h3><p>Tell us what opportunity you are evaluating.</p></div></div>
+      <label class="field-label" for="role">Target job role</label><input class="text-input" id="role" name="role" placeholder="e.g. Junior Data Analyst" required>
+      <div class="field-row"><label class="field-label" for="job_description">Job description <span class="required">*</span></label><span class="field-hint">Paste the full job description</span></div>
+      <textarea class="text-area" id="job_description" name="job_description" rows="9" placeholder="We are looking for a Data Analyst with strong SQL and Python skills...
+
+Responsibilities:
+• Analyze datasets and identify trends
+• Build dashboards using Power BI
+• Work with cross-functional teams
+
+Requirements:
+• Python, SQL, Pandas and Excel
+• Data visualization experience
+• Strong communication skills" required></textarea>
+      <div class="form-footnote">Tip: Include required skills and responsibilities for a more useful comparison.</div>
+    </div>
+  </div>
+  <aside class="form-aside">
+    <div class="panel sticky-panel"><div class="aside-icon">✦</div><h3>What you'll get</h3><ul class="benefit-list"><li><span>✓</span><div><b>Resume match score</b><small>Combined text and skill alignment</small></div></li><li><span>✓</span><div><b>Skill gap analysis</b><small>Matched and missing job skills</small></div></li><li><span>✓</span><div><b>Improvement suggestions</b><small>Practical areas to strengthen</small></div></li><li><span>✓</span><div><b>Analysis history</b><small>Review previous comparisons</small></div></li></ul><button class="btn primary full" type="submit">Analyze resume <span>→</span></button><p class="disclaimer">This is an educational screening aid, not a hiring decision or a guarantee of job suitability.</p></div>
+  </aside>
+</form>
+{% endblock %}

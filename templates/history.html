@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Analysis history{% endblock %}
+{% block crumb %}Analysis history{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">YOUR ACTIVITY</div><h1>Analysis history</h1><p class="subheading">Review previous resume comparisons saved on this device.</p></div><div class="heading-actions"><a class="btn secondary" href="{{ url_for('export_history') }}">↓ Export CSV</a><a class="btn primary" href="{{ url_for('analyze') }}">＋ New analysis</a></div></div>
+<div class="table-card">
+{% if rows %}<table><thead><tr><th>RESUME</th><th>TARGET ROLE</th><th>MATCH SCORE</th><th>DATE ANALYZED</th></tr></thead><tbody>
+{% for row in rows %}<tr><td><span class="file-icon">DOC</span><strong>{{ row.filename }}</strong></td><td>{{ row.role }}</td><td><span class="score-chip {{ 'high' if row.score >= 70 else 'mid' if row.score >= 45 else 'low' }}">{{ row.score }}%</span></td><td>{{ row.created_at }}</td></tr>{% endfor %}
+</tbody></table>{% else %}<div class="empty-state"><div class="empty-icon">◷</div><strong>Your history is empty</strong><p>Completed analyses will appear here.</p><a class="btn primary small" href="{{ url_for('analyze') }}">Start an analysis</a></div>{% endif %}
+</div>
+{% endblock %}

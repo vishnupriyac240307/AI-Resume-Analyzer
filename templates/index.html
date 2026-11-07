@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Overview{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">YOUR CAREER WORKSPACE</div><h1>Good to see you.</h1><p class="subheading">Turn your resume into actionable career insights.</p></div><a class="btn primary" href="{{ url_for('analyze') }}">＋ Analyze a resume</a></div>
+<div class="hero-banner"><div class="hero-copy"><span class="hero-pill">✦ SMART RESUME INSIGHTS</span><h2>Make your experience<br>match your next opportunity.</h2><p>Compare your resume against a job description, identify skill gaps, and get practical improvement suggestions.</p><a class="btn white" href="{{ url_for('analyze') }}">Start new analysis <span>→</span></a></div><div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="doc-card"><div class="doc-top"><span></span><span></span><span></span></div><div class="doc-avatar"></div><div class="doc-line wide"></div><div class="doc-line"></div><div class="doc-section"></div><div class="doc-line wide"></div><div class="doc-line short"></div><div class="doc-section"></div><div class="doc-line wide"></div><div class="doc-line"></div><div class="score-bubble"><b>92</b><small>MATCH</small></div></div></div></div>
+<div class="section-title"><div><h3>Overview</h3><p class="muted">A snapshot of your resume analysis activity.</p></div></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-top"><span>Total analyses</span><span class="stat-icon purple">▤</span></div><strong>{{ total }}</strong><small>Resumes analyzed</small></div>
+  <div class="stat-card"><div class="stat-top"><span>Average match score</span><span class="stat-icon green">◎</span></div><strong>{{ avg }}<em>%</em></strong><small>Across all analyses</small></div>
+  <div class="stat-card"><div class="stat-top"><span>Analysis engine</span><span class="stat-icon blue">✦</span></div><strong class="engine-value">TF-IDF + Skills</strong><small>Local machine learning</small></div>
+</div>
+<div class="section-title recent-title"><div><h3>Recent analyses</h3><p class="muted">Your latest resume comparisons.</p></div><a class="text-link" href="{{ url_for('history') }}">View history →</a></div>
+<div class="table-card">
+  {% if recent %}
+  <table><thead><tr><th>RESUME</th><th>TARGET ROLE</th><th>MATCH SCORE</th><th>DATE</th></tr></thead><tbody>
+  {% for row in recent %}<tr><td><span class="file-icon">PDF</span><strong>{{ row.filename }}</strong></td><td>{{ row.role }}</td><td><span class="score-chip {{ 'high' if row.score >= 70 else 'mid' if row.score >= 45 else 'low' }}">{{ row.score }}%</span></td><td>{{ row.created_at }}</td></tr>{% endfor %}
+  </tbody></table>
+  {% else %}<div class="empty-state"><div class="empty-icon">▤</div><strong>No analyses yet</strong><p>Upload your first resume to see your results here.</p><a class="btn primary small" href="{{ url_for('analyze') }}">Analyze resume</a></div>{% endif %}
+</div>
+{% endblock %}

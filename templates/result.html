@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Analysis results{% endblock %}
+{% block crumb %}Analysis results{% endblock %}
+{% block content %}
+<div class="page-heading"><div><div class="eyebrow">ANALYSIS COMPLETE</div><h1>Your resume insights</h1><p class="subheading">Results for <b>{{ filename }}</b> · Target role: {{ role }}</p></div><a class="btn secondary" href="{{ url_for('analyze') }}">＋ New analysis</a></div>
+<div class="result-grid">
+  <div class="panel score-panel"><div class="panel-heading"><div><h3>Overall match score</h3><p>Estimated alignment with the supplied job description.</p></div><span class="info-dot" title="Heuristic score, not a probability of getting hired.">i</span></div>
+    <div class="score-visual"><div class="score-ring" style="--score: {{ result.score }}"><div><strong>{{ result.score }}<small>%</small></strong><span>MATCH SCORE</span></div></div></div>
+    <div class="score-caption">{% if result.score >= 70 %}<b>Strong alignment</b><span>Your resume contains several signals relevant to this role.</span>{% elif result.score >= 45 %}<b>Moderate alignment</b><span>There are relevant skills, with some gaps to review.</span>{% else %}<b>Early alignment</b><span>Your resume may need more role-specific evidence.</span>{% endif %}</div>
+    <div class="metric-bars"><div><span>Text similarity</span><b>{{ result.text_similarity }}%</b></div><div class="bar"><i style="width:{{ result.text_similarity }}%"></i></div><div><span>Job skill coverage</span><b>{{ result.skill_coverage }}%</b></div><div class="bar"><i class="bar-green" style="width:{{ result.skill_coverage }}%"></i></div></div>
+  </div>
+  <div class="panel"><div class="panel-heading"><div><h3>Skill alignment</h3><p>Skills identified in the resume and job description.</p></div></div><div class="skill-summary"><div><strong>{{ result.matched_skills|length }}</strong><span>Matched</span></div><div><strong>{{ result.missing_skills|length }}</strong><span>Not found</span></div><div><strong>{{ result.word_count }}</strong><span>Resume words</span></div></div>
+    <h4 class="subsection-heading">Matched skills</h4><div class="chips">{% for skill in result.matched_skills %}<span class="skill-chip matched">{{ skill }}</span>{% else %}<span class="muted">No explicit skill matches found.</span>{% endfor %}</div>
+    <h4 class="subsection-heading">Skills not found in resume</h4><div class="chips">{% for skill in result.missing_skills %}<span class="skill-chip missing">{{ skill }}</span>{% else %}<span class="muted">No missing skills detected from the supported skill list.</span>{% endfor %}</div>
+  </div>
+</div>
+<div class="panel suggestions-panel"><div class="panel-heading"><div><h3>Recommended improvements</h3><p>Use these as prompts for an honest, evidence-based resume update.</p></div><span class="recommend-icon">✧</span></div>
+  {% for suggestion in result.suggestions %}<div class="suggestion"><span>{{ loop.index }}</span><p>{{ suggestion }}</p></div>{% endfor %}
+</div>
+<div class="result-actions"><a class="btn primary" href="{{ url_for('analyze') }}">Analyze another resume →</a><a class="btn secondary" href="{{ url_for('history') }}">View analysis history</a></div>
+<p class="disclaimer bottom-disclaimer">Important: The score is a heuristic estimate based on TF-IDF text similarity and detected skills. It is not a validated hiring model, does not assess candidate quality, and may miss synonyms or skills outside its built-in vocabulary. Never add skills you do not have.</p>
+{% endblock %}
